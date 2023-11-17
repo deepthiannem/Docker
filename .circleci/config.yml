@@ -10,20 +10,45 @@ jobs:
     steps:
       - checkout
 
+      # Install dependencies
+      - run:
+          name: Install dependencies
+          command: |
+            pip install -r requirements.txt
+
+      # Run tests
+      - run:
+          name: Run tests
+          command: |
+            pytest
+
+  build_and_push_docker_image:
+    docker:
+      - image: docker:latest
+
+    working_directory: /app
+
+    steps:
+      - checkout
+
       # Build Docker image
       - run:
           name: Build Docker image
           command: |
-            docker build -t sparse-docker .
+            docker build -t deepthi29/sparse-docker:latest .
       
-      # Run tests inside Docker container
+      # Push Docker image to Docker Hub
       - run:
-          name: Run tests
+          name: Push Docker image to Docker Hub
           command: |
-            docker run -it sparse-docker
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker push deepthi29/sparse-docker:latest
 
 workflows:
   version: 2
   build:
     jobs:
       - build
+      - build_and_push_docker_image:
+          requires:
+            - build

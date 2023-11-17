@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            docker push $DOCKER_USERNAME/sparse__docker:v1
+            docker push deepthi29/sparse__docker:v1
 
 workflows:
   version: 2.1

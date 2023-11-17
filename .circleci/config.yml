@@ -2,8 +2,7 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: python:3.8  # Use the Python version you need
+    executor: python/default
     steps:
       - checkout
       - run:
@@ -20,4 +19,3 @@ workflows:
   build:
     jobs:
       - build
-

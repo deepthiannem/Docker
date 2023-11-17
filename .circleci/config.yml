@@ -1,54 +1,45 @@
 version: 2.1
 
 jobs:
-  build:
+  build and push to dockerhub:
     docker:
-      - image: python:3.8
-
-    working_directory: /app
-
+      - image: cimg/python:3.8
     steps:
       - checkout
 
-      # Install Docker
       - run:
-          name: Install Docker
+          name: "Install Dependencies"
           command: |
-            apt-get update
-            apt-get install -y docker.io
-
-      # Install dependencies
-      - run:
-          name: Install dependencies
-          command: |
+            python -m pip install --upgrade pip
             pip install -r requirements.txt
 
-      # Run tests
       - run:
-          name: Run tests
-          command: |
-            pytest
+          name: "Run Tests"
+          command: pytest
 
-      # Build Docker image
+      - setup_remote_docker
+
       - run:
-          name: Build Docker image
+          name: "Build Docker Image"
           command: |
             docker build -t deepthi29/sparse__docker:v1 .
 
-      # Log in to Docker Hub
       - run:
-          name: Log in to Docker Hub
+          name: "Push Docker Image"
           command: |
-            echo "Saireddy@123" | docker login -u "deepthi29" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
 
-      # Push Docker image to Docker Hub
       - run:
-          name: Push Docker image to Docker Hub
+          name: Push Docker Image to Docker Hub
           command: |
-            docker push deepthi29/sparse__docker:v1
+            docker push $DOCKER_USERNAME/sparse__docker:v1
 
 workflows:
-  version: 2
-  build:
+  version: 2.1
+  build-and-deploy:
     jobs:
-      - build
+      - build and push to dockerhub:
+          filters:
+            branches:
+              only:
+                - main

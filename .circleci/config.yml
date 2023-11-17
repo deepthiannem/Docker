@@ -2,7 +2,8 @@ version: 2.1
 
 jobs:
   build:
-    executor: python/default
+    docker:
+      - image: circleci/python:3.11.5
     steps:
       - checkout
       - run:

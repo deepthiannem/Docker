@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: python:3.8
+      - image: cimg/python:3.8
 
     working_directory: /app
 
@@ -12,37 +12,31 @@ jobs:
 
       # Install dependencies
       - run:
-          name: Install dependencies
+          name: "Install dependencies"
           command: |
+            python -m pip install --upgrade pip
             pip install -r requirements.txt
 
       # Run tests
       - run:
-          name: Run tests
+          name: "Run tests"
           command: |
             pytest
 
-  build_and_push_docker_image:
-    docker:
-      - image: docker:latest
-
-    working_directory: /app
-
-    steps:
-      - checkout
+  
 
       # Build Docker image
       - run:
           name: Build Docker image
           command: |
-            docker build -t deepthi29/latest .
+            docker build -t deepthi29:latest .
       
       # Push Docker image to Docker Hub
       - run:
           name: Push Docker image to Docker Hub
           command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker push deepthi29/latest
+            docker push deepthi29:latest
 
 workflows:
   version: 2

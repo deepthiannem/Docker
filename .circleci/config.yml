@@ -35,13 +35,13 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t deepthi29/sparse-docker:latest .
+            docker build -t deepthi29/latest .
       
       # Push Docker image to Docker Hub
       - run:
           name: Push Docker image to Docker Hub
           command: |
-            echo "Saireddy@29" | docker login -u "deepthi29" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             docker push deepthi29/latest
 
 workflows:

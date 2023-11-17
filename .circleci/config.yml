@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            docker build -t deepthi29/latest .
+            docker build -t deepthi29/sparse-docker:latest .
       
       # Push Docker image to Docker Hub
       - run:

@@ -22,7 +22,7 @@ jobs:
       - run:
           name: "Build Docker Image"
           command: |
-            docker build -t deepthi29/sparse__docker:v1 .
+            docker build -t deepthi29/sparsedocker:v1 .
 
       - run:
           name: "Push Docker Image"
@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Push Docker Image to Docker Hub
           command: |
-            docker push deepthi29/sparse__docker:v1
+            docker push deepthi29/sparsedocker:v1
 
 workflows:
   version: 2.1

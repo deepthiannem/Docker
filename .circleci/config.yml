@@ -10,17 +10,17 @@ jobs:
     steps:
       - checkout
 
-      # Install dependencies
+      # Build Docker image
       - run:
-          name: Install dependencies
+          name: Build Docker image
           command: |
-            pip install -r requirements.txt
-
-      # Run tests
+            docker build -t sparse-docker .
+      
+      # Run tests inside Docker container
       - run:
           name: Run tests
           command: |
-            pytest
+            docker run -it sparse-docker
 
 workflows:
   version: 2

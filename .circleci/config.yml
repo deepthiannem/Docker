@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: python:3.8
+      - image: cimg/python:3.8
 
     working_directory: /app
 
@@ -24,12 +24,15 @@ jobs:
 
   build_and_push_docker_image:
     docker:
-      - image: docker:latest
+      - image: cimg/python:3.8
 
     working_directory: /app
 
     steps:
       - checkout
+
+      # Setup remote Docker environment
+      - setup_remote_docker
 
       # Build Docker image
       - run:

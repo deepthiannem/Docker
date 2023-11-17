@@ -10,6 +10,13 @@ jobs:
     steps:
       - checkout
 
+      # Install Docker
+      - run:
+          name: Install Docker
+          command: |
+            apt-get update
+            apt-get install -y docker.io
+
       # Install dependencies
       - run:
           name: Install dependencies
